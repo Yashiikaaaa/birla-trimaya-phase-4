@@ -50,8 +50,9 @@ export const useLeadTracking = () => {
     []
   );
 
-  const trackFormSubmission =
+  const trackFormSubmission = 
   (source, formType, propertyType = null) => {
+    console.log("sdhfhsfshdfiohfidhishihfdihfd")
     let eventAction;
 
     if (propertyType) {
@@ -75,16 +76,18 @@ export const useLeadTracking = () => {
     });
 
     // 🔹 Fixed conversion event (Capitalized as requested)
+    console.log("before contact form submit")
     ReactGA.event("Contact_form_submit", {
       event_category: "Form Submission",
       event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
       lead_source: source,
       property_type: propertyType,
       funnel_stage:
-        formType === "contact_form" ? "lead" : "site_visit_request",
+      formType === "contact_form" ? "lead" : "site_visit_request",
       transport_type: "beacon",
       ...getUTMParams(),
     });
+    console.log("after contact form submit", Math.floor(Date.now()/1000))
   }
 
   const trackFormOpen = useCallback((source, formType, propertyType = null) => {

@@ -72,7 +72,8 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    console.log("Inside handle submit");
+    // e.preventDefault();
     if (loading) return;
 
     setLoading(true);
@@ -123,11 +124,7 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
       await response.json();
 
       // 🔥 FIRE GTM EVENT (Google Ads / GA4)
-      fireContactFormSubmitEvent({
-        projectName: payload.projectName,
-        leadSource: leadSource?.source,
-        utmParams,
-      });
+
 
       setName("");
       setNumber("");
@@ -196,8 +193,8 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
 
             <div className="max-w-sm w-full">
               <button
-                onClick={handleSubmit}
-                disabled={loading || !isFormValid}
+                onClick={() => handleSubmit()}
+                // disabled={loading || !isFormValid}
                 className={`w-full p-3 text-white ${
                   loading || !isFormValid
                     ? "bg-gray-400 cursor-not-allowed"
