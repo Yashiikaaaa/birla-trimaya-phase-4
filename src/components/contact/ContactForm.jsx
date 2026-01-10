@@ -15,20 +15,6 @@ if (trackingId) {
 }
 
 // 🔥 GTM DATA LAYER EVENT
-const fireContactFormSubmitEvent = ({ projectName, leadSource, utmParams }) => {
-  if (!window?.dataLayer) return;
-
-  window.dataLayer.push({
-    event: "Contact_form_submit",
-    form_name: "Contact Form",
-    project_name: projectName,
-    lead_source: leadSource || "unknown",
-    utm_source: utmParams?.utmSource || "",
-    utm_medium: utmParams?.utmMedium || "",
-    utm_campaign: utmParams?.utmCampaign || "",
-    utm_keyword: utmParams?.utmKeyword || "",
-  });
-};
 
 const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
   const { trackFormSubmission } = useLeadTracking();
