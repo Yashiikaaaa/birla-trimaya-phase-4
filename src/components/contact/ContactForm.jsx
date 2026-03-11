@@ -8,12 +8,6 @@ import "react-phone-number-input/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
-// GA4 Init
-const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-if (trackingId) {
-  ReactGA.initialize(trackingId);
-}
-
 // 🔥 GTM DATA LAYER EVENT
 
 const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {

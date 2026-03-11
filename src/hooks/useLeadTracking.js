@@ -20,39 +20,8 @@ export const useLeadTracking = () => {
     };
   };
 
-  const trackButtonClick = useCallback(
-    (source, action, propertyType = null) => {
-      let eventAction = normalize(action);
-      let eventLabel = normalize(source);
-
-      if (eventAction.includes("pricing") && propertyType) {
-        eventAction = `${eventAction}_${normalize(propertyType)}`;
-        if (!eventLabel.includes(normalize(propertyType))) {
-          eventLabel = `${eventLabel}_${normalize(propertyType)}`;
-        }
-      } else if (eventAction.includes("enquire_now") && source) {
-        eventAction = `${eventAction}_${normalize(source)}`;
-      }
-
-      eventAction = eventAction.replace(/(_pricing)+/g, "_pricing");
-      eventLabel = eventLabel.replace(/(_pricing)+/g, "_pricing");
-
-      ReactGA.event(eventAction, {
-        event_category: "Button Click",
-        event_label: eventLabel,
-        lead_source: source,
-        property_type: propertyType,
-        funnel_stage: "interest",
-        transport_type: "beacon",
-        ...getUTMParams(), // ← add utm parameters
-      });
-    },
-    []
-  );
-
   const trackFormSubmission = 
   (source, formType, propertyType = null) => {
-    console.log("sdhfhsfshdfiohfidhishihfdihfd")
     let eventAction;
 
     if (propertyType) {
@@ -76,7 +45,6 @@ export const useLeadTracking = () => {
     });
 
     // 🔹 Fixed conversion event (Capitalized as requested)
-    console.log("before contact form submit")
     ReactGA.event("Contact_form_submit", {
       event_category: "Form Submission",
       event_label: `${source}${propertyType ? ` - ${propertyType}` : ""}`,
@@ -87,38 +55,10 @@ export const useLeadTracking = () => {
       transport_type: "beacon",
       ...getUTMParams(),
     });
-    console.log("after contact form submit", Math.floor(Date.now()/1000))
   }
 
-  const trackFormOpen = useCallback((source, formType, propertyType = null) => {
-    let eventAction;
-
-    if (propertyType) {
-      eventAction = `${normalize(formType)}_opened_${normalize(propertyType)}`;
-    } else if (source) {
-      eventAction = `${normalize(formType)}_opened_${normalize(source)}`;
-    } else {
-      eventAction = `${normalize(formType)}_opened`;
-    }
-
-    ReactGA.event(eventAction, {
-      event_category: "Form Interaction",
-      event_label:
-        propertyType && !normalize(source).includes(normalize(propertyType))
-          ? `${source} - ${propertyType}`
-          : source,
-      lead_source: source,
-      property_type: propertyType,
-      funnel_stage: "consideration",
-      transport_type: "beacon",
-      ...getUTMParams(), // ← add utm parameters
-    });
-  }, []);
-
   return {
-    trackButtonClick,
     trackFormSubmission,
-    trackFormOpen,
   };
 };
 
@@ -126,9 +66,7 @@ export const useLeadTracking = () => {
 export const LEAD_SOURCES = {
   HERO: "hero_banner",
   OVERVIEW: "overview_section",
-  PRICING_2BHK: "pricing_2BHK",
-  PRICING_3BHK: "pricing_3BHK",
-  PRICING_4BHK: "pricing_4BHK",
+  PRICING_sqft2400: "pricing_section_2400sqft",
   MASTER_PLAN: "master_plan_section",
   FOOTER: "footer_section",
   CONTACT_FORM_LINK: "contact_form_internal_link",
@@ -137,7 +75,5 @@ export const LEAD_SOURCES = {
 
 // Property types
 export const PROPERTY_TYPES = {
-  BHK2: "2BHK",
-  BHK3: "3BHK",
-  BHK4: "4BHK",
+  sqft2400: "2400sqft",
 };
