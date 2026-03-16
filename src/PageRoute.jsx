@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import ReactGA from "react-ga4";
 
@@ -16,8 +16,7 @@ import { MasterPlan } from "./sections/MasterPlan";
 import { Gallery } from "./sections/Gallery";
 import ContactForm from "./components/contact/ContactForm";
 import { useLeadTracking } from "./hooks/useLeadTracking";
-// Add this import if you have the useLeadTracking hook
-// import { useLeadTracking } from "./hooks/useLeadTracking";
+import { analytics } from "./analytics";
 
 const RevealOnScroll = ({ children }) => {
   const ref = useRef(null);
@@ -57,53 +56,39 @@ export const PageRoute = () => {
   const [sitevisitmodal, setSiteVisitModal] = useState(false);
   const [contactmodal, setContactModal] = useState(false);
   const [leadSource, setLeadSource] = useState(null);
-  const pageViewSentRef = useRef(false);
+  const location = useLocation();
   
-  // Uncomment this if you have the useLeadTracking hook
-  const { trackFormOpen } = useLeadTracking();
+  // Track pageview on every location change
+  useEffect(() => {
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname + location.search,
+      title: document.title,
+    });
+  }, [location]);
 
   const openContactModal = (source, propertyType = null) => {
     setLeadSource({ source, propertyType });
     setContactModal(true);
     
-    // Uncomment this if you have the useLeadTracking hook
-    trackFormOpen(source, 'contact_form', propertyType);
-  };
-
-  useEffect(() => {
-    if (pageViewSentRef.current) return;
-    pageViewSentRef.current = true;
-
-    const params = new URLSearchParams(window.location.search);
-    const source = params.get("utmSource");
-    const medium = params.get("utmMedium");
-    const campaign = params.get("utmCampaign");
-    const keyword = params.get("utmKeyword");
-
-    ReactGA.send({
-      hitType: "pageview",
-      utmSource: source,
-      utmMedium: medium,
-      utmCampaign: campaign,
-      utmKeyowrd: keyword,
-    });
-  }, []);
+    analytics.trackContactForm(source, "opening");
+  }; 
 
   return (
-    <BrowserRouter>
+    <>
       {/* {sitevisitmodal && (
         <SiteVisitForm
           sitevisitmodal={sitevisitmodal}
           setSiteVisitModal={setSiteVisitModal}
         />
-      )} */}
-      {contactmodal && (
-        <ContactForm
+      )} */} 
+      {contactmodal && ( 
+        <ContactForm 
           contactmodal={contactmodal}
           setContactModal={setContactModal}
           setSiteVisitModal={setSiteVisitModal}
           leadSource={leadSource}
-        />
+        /> 
       )}
 
       <Navbar
@@ -112,7 +97,7 @@ export const PageRoute = () => {
         openContactModal={openContactModal}
       />
 
-      <WhatsApp />
+      <WhatsApp /> 
       <Routes>
         <Route
           path="/"
@@ -254,6 +239,6 @@ export const PageRoute = () => {
         />
       </Routes>
       <Footer openContactModal={openContactModal} />
-    </BrowserRouter>
+    </>
   );
 };

@@ -9,7 +9,6 @@ import { useLeadTracking, LEAD_SOURCES, PROPERTY_TYPES } from '../hooks/useLeadT
 const Pricing = ({ openContactModal, formSubmitted }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
-  const { trackButtonClick } = useLeadTracking();
 
   // Unlock pricing when form is submitted
   useEffect(() => {
@@ -96,7 +95,6 @@ const Pricing = ({ openContactModal, formSubmitted }) => {
                 <Button
                   text="Get Pricing"
                   onClick={() => {
-                    trackButtonClick(property.leadSource, 'get_pricing', property.propertyType);
                     openContactModal(property.leadSource, property.propertyType);
                   }}
                   className="absolute w-max top-1/2 right-0 transform -translate-y-1/2 px-6 py-3 text-center font-body font-semibold text-sm sm:text-base transition-all duration-300 ease-in-out"

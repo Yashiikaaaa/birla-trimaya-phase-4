@@ -8,12 +8,6 @@ import "react-phone-number-input/style.css";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useLeadTracking, LEAD_SOURCES } from "../../hooks/useLeadTracking";
 
-// GA4 Init
-const trackingId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-if (trackingId) {
-  ReactGA.initialize(trackingId);
-}
-
 // 🔥 GTM DATA LAYER EVENT
 
 const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
@@ -108,20 +102,20 @@ const ContactForm = ({ contactmodal, setContactModal, leadSource }) => {
     };
 
     try {
-      const response = await fetch(
-        "https://google-campaign-leads-service-dot-iqol-crm.uc.r.appspot.com/handleMultipleCampaignData",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      // const response = await fetch(
+      //   "https://google-campaign-leads-service-dot-iqol-crm.uc.r.appspot.com/handleMultipleCampaignData",
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(payload),
+      //   }
+      // );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
 
-      await response.json();
+      // await response.json();
 
       // 🔥 FIRE GTM EVENT (Google Ads / GA4)
 

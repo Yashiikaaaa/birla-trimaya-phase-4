@@ -18,7 +18,6 @@ const useIsMobile = () => {
 
 export const Home = ({ openContactModal }) => {
   const isMobile = useIsMobile();
-  const { trackButtonClick } = useLeadTracking();
   
   // Dynamic container styles
   const containerStyle = {
@@ -89,7 +88,6 @@ export const Home = ({ openContactModal }) => {
               <Button
                 text="Enquire Now!"
                 onClick={() => {
-                  trackButtonClick(LEAD_SOURCES.HERO, 'enquire_now', 'Hero Banner CTA');
                   openContactModal(LEAD_SOURCES.HERO);
                 }} // Toggle contact modal on button click
               />

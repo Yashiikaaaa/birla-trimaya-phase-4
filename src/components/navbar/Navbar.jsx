@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"; // Importing Link for routing
  import arrow from "../../assets/navbar/whitearrow.png";
 
 /// Banner component
-export const Banner = ({ setContactModal }) => {
+export const Banner = ({ openContactModal }) => {
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -27,7 +27,7 @@ export const Banner = ({ setContactModal }) => {
         <span className={`font-sans font-semibold ${isMobile ? "text-[12px] leading-[14px]" : "text-[16px] leading-[16px]"}`}>
           Exclusive prices for the first 100 customers{" "}
         </span>
-        <div className="flex items-center justify-center gap-[4px] cursor-pointer" onClick={() => setContactModal(true)}>
+        <div className="flex items-center justify-center gap-[4px] cursor-pointer" onClick={() => openContactModal("navbar_banner")}>
           <span className={`font-sans font-semibold ${isMobile ? "text-[12px] leading-[14px]" : "text-[16px] leading-[16px]"} hover:underline hover:decoration-white`}>Get it now</span>
           <img src={arrow} alt="" className="w-4 h-3"/>
         </div>
@@ -43,7 +43,7 @@ export const Banner = ({ setContactModal }) => {
 };
 
 // Navbar component
-export const Navbar = ({ sitevisitmodal, setSiteVisitModal, setContactModal }) => {
+export const Navbar = ({ sitevisitmodal, setSiteVisitModal, openContactModal }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   // Function to toggle mobile navigation open/close state
@@ -64,7 +64,7 @@ export const Navbar = ({ sitevisitmodal, setSiteVisitModal, setContactModal }) =
 
   return (
     <div className="font-body fixed w-full z-20 top-0 start-0 bg-white">
-      <Banner setContactModal={setContactModal} />
+      <Banner openContactModal={openContactModal} />
       <div className="max-w-7xl mx-auto px-5 lg:px-0 flex flex-wrap items-center justify-between py-[4px] z-40">
         {/* Logo Section */}
         <a
