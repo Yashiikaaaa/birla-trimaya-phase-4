@@ -14,6 +14,7 @@ export const extractParamsFromURL = () => {
   if (typeof window === "undefined") return {};
   
   const params = new URLSearchParams(window.location.search);
+  console.log(params);
   
   const extracted = {
     utm_source: params.get("utm_source") || params.get("utmSource") || "",
@@ -22,7 +23,7 @@ export const extractParamsFromURL = () => {
     utm_term: params.get("utm_term") || params.get("utmTerm") || params.get("utmKeyword") || "",
     utm_content: params.get("utm_content") || params.get("utmContent") || "",
     gclid: params.get("gclid") || "",
-  };
+  }; 
 
   // Only return if at least one parameter is present
   const hasParams = Object.values(extracted).some(val => val !== ""); 
